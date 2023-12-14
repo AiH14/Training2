@@ -1,0 +1,252 @@
+@startuml training4
+'participant user
+'participant app
+'participant camerasetting
+user ->app:int(argc,argv)
+activate app
+    alt argc < 2
+        note over app
+            引数が不足している旨を表示
+        end note
+        app --> user:return:1
+    end
+    app -> app:app_start()
+    activate app
+        alt false == is_initialized
+            app -> camerasetting:camera_initialize()
+            activate camerasetting
+                note over camerasetting
+                    グローバル変数の初期化
+                end note
+            return
+        end
+    return
+        alt argc ==2
+            alt setting ==1
+                app -> app:app_setcolor();
+                activate app
+                    note over app
+                        camera_set_colorにcolorを渡す
+                    end note
+                    app -> camerasetting:camera_set_color(CHANGE_COLOR color)
+                    activate camerasetting
+                        note over camerasetting
+                            グローバル変数にcolorを渡す
+                        end note
+                    return
+                return
+            else setting ==2
+                app -> app:app_setsize();
+                activate app
+                    note over app
+                        camera_set_size にsizeを渡す
+                    end note
+                    app -> camerasetting:camera_set_size(CHANGE_SIZE size)
+                    activate camerasetting
+                        note over camerasetting
+                            グローバル変数にsizeを渡す
+                        end note
+                    return
+                return
+            else setting == 3
+                app -> app:app_setf();
+                activate app
+                    note over app
+                        camera_set_f にfを渡す
+                    end note
+                    app -> camerasetting:camera_set_f(CHANGE_F f)
+                    activate camerasetting
+                        note over camerasetting
+                            グローバル変数にfを渡す
+                        end note
+                    return
+                return
+            else setting == 4
+                app -> app:app_change_setting();
+                activate app
+                    app -> camerasetting:camera_change_settings()
+                    activate camerasetting
+                        loop 0,CHANGE_MAX
+                            alt ret == 0
+                                alt false != is_onoff[i]
+                                    alt COLER
+                                        camerasetting -> camerasetting :camera_change_color();
+                                        activate camerasetting
+                                            alt g_CmrCtrl.color.type != 0 && g_CmrCtrl.color.status != 0
+                                                note over camerasetting
+                                                    色彩設定完了の旨の表示
+                                                end note
+                                            else else
+                                                note over camerasetting
+                                                    色彩設定失敗の表示
+                                                end note
+                                                    note over app
+                                                        ret = 1
+                                                    end note
+                                            end
+                                        return(ret)
+                                    else size
+                                        camerasetting -> camerasetting:camera_change_size()
+                                        activate camerasetting
+                                            alt g_CmrCtrl.size.width != 0 && g_CmrCtrl.size.length != 0
+                                                note over camerasetting
+                                                    サイズ設定完了の表示
+                                                end note
+                                            else else
+                                                note over camerasetting
+                                                    サイズ設定失敗の表示
+                                                end note
+                                                    note over app
+                                                        ret = 1
+                                                    end note
+                                            end
+                                        return(ret)
+                                    else F
+                                        camerasetting ->camerasetting:camera_set_f()
+                                            activate camerasetting
+                                                alt g_CmrCtrl.f.f != 0 && g_CmrCtrl.size.sspeed != 0
+                                                    note over camerasetting
+                                                        F値設定完了の表示
+                                                    end note
+                                            else else
+                                                note over camerasetting
+                                                    F値設定失敗の表示
+                                                end note
+                                                    note over app
+                                                        ret = 1
+                                                    end note
+                                            end
+                                        return(ret)
+                                    else else
+                                        note over app
+                                            ret = 1
+                                        end note
+                                    end
+                                else else
+                                    note over camerasetting
+                                        do noting
+                                    end note
+                                end
+                            else else
+                                note over camerasetting
+                                    設定に失敗した旨を表示
+                                end note
+                                    camerasetting --> app:ret
+                            end
+                        end
+                    return(ret)
+                return(ret)
+            else else
+                note over app
+                     引数が対応していない旨を表示
+                end note
+                note over app
+                    ret = 1
+                end note
+            end
+        else argc == 3
+            alt setting ==1
+                app -> app:app_appendcolor(append_onoff)
+                activate app
+                    app -> camerasetting:camera_append_setting(COLER, onoff)
+                    activate camerasetting
+                        alt req >= CHANGE_MAX
+                            note over camerasetting
+                                ret = 1
+                            end note
+                        else req < CHANGE_MAX
+                            note over camerasetting
+                                グローバル変数にonoffを渡す
+                            end note
+                        end
+                    return(ret)
+                return(ret)
+            else setting ==2
+                app -> app:app_appendsize(append_onoff)
+                activate app
+                    app -> camerasetting:camera_append_setting(SIZE, onoff)
+                    activate camerasetting
+                        alt req >= CHANGE_MAX
+                            note over camerasetting
+                                ret = 1
+                            end note
+                        else req < CHANGE_MAX
+                            note over camerasetting
+                                グローバル変数にonoffを渡す
+                            end note
+                        end
+                    return(ret)
+                return(ret)
+            else setting ==3
+                app -> app:app_appendf(append_onoff)
+                activate app
+                    app -> camerasetting:camera_append_setting(F, f)
+                    activate camerasetting
+                        alt req >= CHANGE_MAX
+                            note over camerasetting
+                                ret = 1
+                            end note
+                        else req < CHANGE_MAX
+                            note over camerasetting
+                                グローバル変数にonoffを渡す
+                            end note
+                        end
+                    return(ret)
+                return(ret)
+            else setting ==4
+                app -> app:app_appendall(bool onoff)
+                activate app
+                    app -> camerasetting:camera_append_setting(COLER,onoff)
+                    activate camerasetting
+                        alt req >= CHANGE_MAX
+                            note over camerasetting
+                                ret = 1
+                            end note
+                        else req < CHANGE_MAX
+                            note over camerasetting
+                                グローバル変数にonoffを渡す
+                            end note
+                        end
+                    return(ret)
+                    alt ret ! = 0
+                        app -->app:return:ret
+                    end
+                    app -> camerasetting:camera_append_setting(SIZE,onoff)
+                    activate camerasetting
+                        alt req >= CHANGE_MAX
+                            note over camerasetting
+                                ret = 1
+                            end note
+                        else req < CHANGE_MAX
+                            note over camerasetting
+                                グローバル変数にonoffを渡す
+                            end note
+                        end
+                    return(ret)
+                    alt ret ! = 0
+                        app --> app :return:ret
+                    end
+                    app -> camerasetting:camera_append_setting(F,onoff)
+                    activate camerasetting
+                        alt req >= CHANGE_MAX
+                            note over camerasetting
+                                ret = 1
+                            end note
+                        else req < CHANGE_MAX
+                            note over camerasetting
+                                グローバル変数にonoffを渡す
+                            end note
+                        end
+                    return(ret)
+                return(ret)
+            else else
+                note over app
+                     引数が対応していない旨を表示
+                end note
+                note over app
+                    ret = 1
+                end note
+            end
+        end
+                return(ret)
+@enduml
