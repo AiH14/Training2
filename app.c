@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 
-#include app.h
-#include camerasetting.h
+#include "app.h"
+#include "camerasetting.h"
 
-static bool is_initialized = false;
+static _Bool is_initialized = false;
 
 void app_setcolor()
 {
@@ -37,16 +38,16 @@ void app_setf()
     camera_set_f(f);
 }
 
-void app_start()
+/*void app_start()
 {
     if(false == is_initialized)
     {
         camera_initialize();
         is_initialized = true;
     }
-}
+}*/
 
-int app_appendall(bool onoff)
+int app_appendall(_Bool onoff)
 {
     int ret = 0;
 
@@ -65,7 +66,7 @@ int app_appendall(bool onoff)
     return(ret);
 }
 
-int app_appendcolor(bool onoff)
+int app_appendcolor(_Bool onoff)
 {
     int ret = 0;
     
@@ -73,7 +74,7 @@ int app_appendcolor(bool onoff)
     return(ret);
 }
 
-int app_appendsize(bool onoff)
+int app_appendsize(_Bool onoff)
 {
     int ret = 0;
     
@@ -81,7 +82,7 @@ int app_appendsize(bool onoff)
     return(ret);
 }
 
-int app_appendf(bool onoff)
+int app_appendf(_Bool onoff)
 {
     int ret = 0;
     
@@ -98,7 +99,7 @@ int app_change_settings()
 
 int main(int argc, char *argv[]) {
     int setting = 0;
-    bool append_onoff;
+    _Bool append_onoff;
     int ret = 0;
     
     if (argc < 2) {
