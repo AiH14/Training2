@@ -1,0 +1,382 @@
+@startuml training5
+participant user
+participant app
+participant camerasetting
+user -> app:int()
+activate app
+    app -> camerasetting:camera_initialize()
+    activate camerasetting
+        note over camerasetting
+            グローバル変数の初期化
+        end note
+    return
+    loop false == end_judge
+        note over app
+            ユーザーにscanfでsettingの値の入力を求める表示
+        end note
+        note over app
+            change_end の初期化
+        end note
+            alt setting == 1
+                app -> app:app_setcolor_question()
+                activate app
+                    note over app
+                        値を設定するか初期化するか選択する表示
+                        scanfでユーザーに値の入力を求める表示
+                    end note
+                        loop 
+                            alt 0:設定 1:初期化
+                                app -> app:app_setcolor(colorvalue)
+                                activate app
+                                    alt colorvalue == 0
+                                        note over app
+                                            固定値を設定
+                                        end note
+                                    else colorvalue == 1
+                                        note over app
+                                            初期値を設定
+                                        end note
+                                    end
+                                        note over app
+                                            colorをcamera_set_colorに渡す
+                                        end note
+                                    app -> camerasetting:camera_set_color(CHANGE_COLOR color)
+                                    activate camerasetting
+                                        note over camerasetting
+                                            グローバル変数にcolorを渡す
+                                            is_onoffをオンにする
+                                        end note
+                                    return
+                                return
+                            else その他の入力
+                                note over app
+                                    入力が対応していない旨の表示
+                                end note
+                            end
+                                alt 入力が0または1
+                                    note over app
+                                        loopを抜ける
+                                    end note
+                                else 入力が0または1でない
+                                    note over app
+                                        設定/初期化の入力に戻る
+                                    end note
+                                end
+                        end
+                return
+            else setting == 2
+                app -> app:app_setsize_question()
+                activate app
+                    note over app
+                        値を設定するか初期化するか選択する表示
+                        scanfでユーザーに値の入力を求める表示
+                    end note
+                        loop 
+                            alt 0:設定 1:初期化
+                                app -> app:app_setsize(sizevalue)
+                                activate app
+                                     alt sizevalue == 0
+                                        note over app
+                                            固定値を設定
+                                        end note
+                                    else sizevalue == 1
+                                        note over app
+                                            初期値を設定
+                                        end note
+                                    end
+                                        note over app
+                                            sizeをcamera_set_sizeに渡す
+                                        end note
+                                    app -> camerasetting:camera_set_size(CHANGE_SIZE size)
+                                    activate camerasetting
+                                        note over camerasetting
+                                            グローバル変数にsizeを渡す
+                                            is_onoffをオンにする
+                                        end note
+                                    return
+                                return
+                            else その他の入力
+                                note over app
+                                    入力が対応していない旨の表示
+                                end note
+                            end
+                            alt 入力が0または1
+                                    note over app
+                                        loopを抜ける
+                                    end note
+                                else 入力が0または1でない
+                                    note over app
+                                        設定/初期化の入力に戻る
+                                    end note
+                                end
+                        end
+                return
+            else setting == 3
+                app -> app:app_setf_question()
+                activate app
+                    note over app
+                        値を設定するか初期化するか選択する表示
+                        scanfでユーザーに値の入力を求める表示
+                    end note
+                        loop 
+                            alt 0:設定 1:初期化
+                                app -> app:app_setf(fvalue)
+                                activate app
+                                    alt sizevalue == 0
+                                        note over app
+                                            固定値を設定
+                                        end note
+                                    else sizevalue == 1
+                                        note over app
+                                            初期値を設定
+                                        end note
+                                    end
+                                        note over app
+                                            camera_set_fにfを渡す
+                                        end note
+                                    app -> camerasetting:camera_set_f(CHANGE_SIZE f)
+                                    activate camerasetting
+                                        note over camerasetting
+                                            グローバル変数にfを渡す
+                                            is_onoffをオンにする
+                                        end note
+                                    return
+                                return
+                            else その他の入力
+                                note over app
+                                    入力が対応していない旨の表示
+                                end note
+                            end
+                                alt 入力が0または1
+                                    note over app
+                                        loopを抜ける
+                                    end note
+                                else 入力が0または1でない
+                                    note over app
+                                        設定/初期化の入力に戻る
+                                    end note
+                                end
+                        end
+                    return
+            else setting == 4
+                app -> app:app_setsspeed_question()
+                activate app
+                    note over app
+                        値を設定するか初期化するか選択する表示
+                        scanfでユーザーに値の入力を求める表示
+                    end note
+                        loop 
+                            alt 0:設定 1:初期化
+                                app -> app:app_setsspeed(ssvalue);
+                                activate app
+                                    alt ssvalue == 0
+                                        note over app
+                                        ユーザーにscanfで値の入力を求める表示
+                                        end note
+                                            loop sspeed>0 && 5>sspeed
+                                                alt sspeed == 1
+                                                    note over app
+                                                        0x00(1/1秒)をsspeedに代入
+                                                        loopを抜ける
+                                                    end note
+                                                else sspeed == 2
+                                                    note over app
+                                                        0x01(1/2秒)をsspeedに代入
+                                                        loopを抜ける
+                                                    end note
+                                                else sspeed == 3
+                                                    note over app
+                                                        0x02(1/5秒)をsspeedに代入
+                                                        loopを抜ける
+                                                    end note
+                                                else sspeed == 4
+                                                    note over app
+                                                        0x03(1/10秒)をsspeedに代入
+                                                        loopを抜ける
+                                                    end note
+                                                else その他の入力
+                                                    note over app
+                                                        入力が対応していない旨を表示
+                                                        値の入力に戻る
+                                                    end note
+                                                end
+                                            end
+                                    else ssvalue == 1
+                                        note over app
+                                            初期値を設定
+                                        end note
+                                    end
+                                        activate app
+                                        note over app
+                                            camera_set_sspeedにsspeedを渡す
+                                        end note
+                                        app -> camerasetting:camera_set_sspeed(CHANGE_SSPEED sspeed)
+                                        activate camerasetting
+                                            note over camerasetting
+                                                グローバル変数にsspeedを渡す
+                                                is_onoffをオンにする
+                                            end note
+                                        return
+                                return
+                            else その他の入力
+                                note over app
+                                    入力が対応していない旨の表示
+                                end note
+                            end
+                                alt 入力が0または1
+                                    note over app
+                                        loopを抜ける
+                                    end note
+                                else 入力が0または1でない
+                                    note over app
+                                        設定/初期化の入力に戻る
+                                    end note
+                                end
+                        end
+                    return
+            else setting == 5
+                app -> app:app_chenge_question()
+                activate app
+                    note over app
+                        実行するかどうかの表示
+                        scanfでユーザーに値の入力を求める表示
+                    end note
+                        loop False == change_end
+                            alt 0:はい
+                                app -> app:app_change_setting();
+                                activate app
+                                    app -> camerasetting:camera_change_settings()
+                                    activate camerasetting
+                                        loop i = 0; i < CHANGE_MAX; i++
+                                            alt false != is_onoff[i]
+                                                alt COLOR
+                                                    camerasetting -> camerasetting :camera_change_color();
+                                                    activate camerasetting
+                                                        note over camerasetting
+                                                            色彩設定完了の旨を表示
+                                                        end note
+                                                    return
+                                                else size
+                                                    camerasetting -> camerasetting:camera_change_size()
+                                                    activate camerasetting
+                                                        note over camerasetting
+                                                            サイズ設定完了の表示
+                                                        end note
+                                                    return
+                                                else F
+                                                    camerasetting ->camerasetting:camera_chenge_f()
+                                                    activate camerasetting
+                                                        note over camerasetting
+                                                            F値設定完了の表示
+                                                        end note
+                                                    return
+                                                else sspeed
+                                                    camerasetting ->camerasetting:camera_chenge_sspeed()
+                                                    activate camerasetting
+                                                        note over camerasetting
+                                                            シャッタースピード設定完了の表示
+                                                        end note
+                                                    return
+                                                end
+                                            else else
+                                                note over camerasetting
+                                                    do nothing
+                                                end note
+                                            end
+                                        end
+                                    return
+                                    app -> camerasetting:camera_inisialize()
+                                        note over camerasetting
+                                            グローバル変数の初期化
+                                        end note
+                                    activate camerasetting
+                                    return
+                                        app -> app:app_end_question()
+                                        activate app
+                                            loop 
+                                            note over app
+                                                設定を終了するか否かscanfでユーザーに入力を求める表示
+                                            end note
+                                                alt 0:はい
+                                                    note over app
+                                                        end_judgeをオンにする
+                                                        chenge_endをオンにする
+                                                        loopから抜ける
+                                                    end note
+                                                else 1:いいえ
+                                                    note over app
+                                                        chenge_endをオンにする
+                                                        settingの入力に戻る
+                                                    end note
+                                                else その他の入力
+                                                    note over app
+                                                        入力が対応していない旨の表示
+                                                        はい/いいえの入力に戻る
+                                                    end note
+                                                end
+                                                    alt 入力が0または1
+                                                        note over app
+                                                            loopを抜ける
+                                                        end note
+                                                    else 入力が0または1でない
+                                                        note over app
+                                                            設定/初期化の入力に戻る
+                                                        end note
+                                                    end
+                                            end
+                                        return
+                                return
+                            else 1:いいえ
+                                note over app
+                                    settingの入力に戻る
+                                end note
+                            else その他の入力
+                                note over app
+                                    入力が対応していない旨の表示
+                                    はい/いいえの入力に戻る
+                                end note
+                            end
+                                note over app
+                                    chenge_endがオンの場合ループから抜ける
+                                end note
+                        end
+                    return
+            else setting == 6
+                app -> app:app_end_question()
+                activate app
+                note over app
+                    設定を終了するか否かscanfでユーザーに入力を求める表示
+                end note
+                    loop 
+                        alt 0:はい
+                            note over app
+                                end_judgeをオンにする
+                                chenge_endをオンにする※判定なし
+                            end note
+                        else 1:いいえ
+                            note over app
+                                settingの入力に戻る
+                            end note
+                        else その他の入力
+                            note over app
+                                入力が対応していない旨の表示
+                            end note
+                        end
+                            alt 入力が0または1
+                                note over app
+                                    loopを抜ける
+                                end note
+                            else 入力が0または1でない
+                                note over app
+                                    はい/いいえの入力に戻る
+                                end note
+                            end
+                    end
+                return
+            end
+                note over app
+                    end_judgeがオンの場合ループから抜ける
+                end note
+    end
+return
+@enduml
