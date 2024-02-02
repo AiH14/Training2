@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 
-#include app.h
-#include camerasetting.h
+#include "app.h"
+#include "camerasetting.h"
 
 static CameraCtrl     g_CmrCtrl = { 0 };
 
@@ -14,120 +15,80 @@ void camera_initialize()
     memset(&g_CmrCtrl.f, 0, sizeof(g_CmrCtrl.f));
 }
 
-void camera_set_color(CHANGE_COLOR color)
+void camera_set_color(CHANGE_COLOR color,CHANGE_REQ req,_Bool onoff)
 {
     g_CmrCtrl.color.type = color.type;
     g_CmrCtrl.color.status = color.status;
+    g_CmrCtrl.is_onoff[req] = onoff;
 }
 
-void camera_set_size(CHANGE_SIZE size)
+void camera_set_size(CHANGE_SIZE size,CHANGE_REQ req,_Bool onoff)
 {
     g_CmrCtrl.size.width = size.width;
     g_CmrCtrl.size.length = size.length;
+    g_CmrCtrl.is_onoff[req] = onoff;
 }
 
-void camera_set_f(CHANGE_F f)
+void camera_set_f(CHANGE_F f,CHANGE_REQ req,_Bool onoff)
 {
     g_CmrCtrl.f.f = f.f;
-    g_CmrCtrl.f.sspeed = f.sspeed;
+    g_CmrCtrl.is_onoff[req] = onoff;
 }
 
-int camera_append_setting(CHANGE_REQ req, bool onoff)
+void camera_set_sspeed(CHANGE_SS sspeed,CHANGE_REQ req,_Bool onoff)
 {
-    int ret = 0;
-    if (req >= CHANGE_MAX)
-    {
-        ret = 1;
-    }
-    else
-    {
-        g_CmrCtrl.is_onoff[req] = onoff;
-    }
-    
-    return(ret);
+    g_CmrCtrl.ss.sspeed = sspeed.ss;
+    g_CmrCtrl.is_onoff[req] = onoff;
 }
 
-int camera_change_settings()
+void camera_change_settings()
 {
-    int ret = 0;
+    int i;
     for (i = 0; i < CHANGE_MAX; i++)
     {
-        if(ret == 0)
+        if (false != g_CmrCtrl.is_onoff[i])
         {
-            if (false != g_CmrCtrl.is_onoff[i])
+            switch (i)
             {
-                switch (i)
-                {
-                    /* 色彩設定 */
-                    case COLER:
-                        ret = camera_change_color();
-                        break;
-                    /* サイズ設定 */
-                    case SIZE;
-                        ret = camera_change_size();
-                        break;
-                    /* F値設定 */
-                    case F;
-                        ret = camera_change_f();
-                        break;
-                    default:
-                        ret = 1;
-                        break;
-                }
+                /* 色彩設定 */
+                case COLER:
+                    camera_change_color();
+                    break;
+                /* サイズ設定 */
+                case SIZE:
+                    camera_change_size();
+                    break;
+                /* F値設定 */
+                case F:
+                    camera_change_f();
+                    break;
+                case SS:
+                    camera_chenge_sspeed();
+                    break;
             }
-            else
-            { /* Do Nothing. */ } 
         }
         else
-        {
-            printf("Camera設定に失敗しました。\n");
-            return(ret);
-        }
+        { /* Do Nothing. */ } 
     }
-    return(ret);
+    
 }
 
-int camera_change_color()
+void camera_change_color()
 {
-    int ret = 0;
-    if(g_CmrCtrl.color.type != 0 && g_CmrCtrl.color.status != 0)
-    {
-        printf("色彩設定完了しました。\n");
-    }
-    else
-    {
-        printf("色彩設定失敗しました。\n");
-        ret = 1;
-    }
-    return(ret);
+    printf("色彩設定完了しました。\n");
 }
 
-int camera_change_size()
+void camera_change_size()
 {
-    int ret = 0;
-    if(g_CmrCtrl.size.width != 0 && g_CmrCtrl.size.length != 0)
-    {
-        printf("サイズ設定完了しました。\n");
-    }
-    else
-    {
-        printf("サイズ設定失敗しました。\n");
-        ret = 1;
-    }
-    return(ret);
+    printf("サイズ設定完了しました。\n");
 }
 
-int camera_change_f()
+void camera_change_f()
 {
-    int ret = 0;
-    if(g_CmrCtrl.f.f != 0 && g_CmrCtrl.size.sspeed != 0)
-    {
-        printf("F値設定完了しました。\n");
-    }
-    else
-    {
-        printf("F値設定失敗しました。\n");
-        ret = 1;
-    }
-    return(ret);
+    printf("F値設定完了しました。\n");
+}
+
+void camera_chenge_sspeed()
+{
+    printf("シャッタースピード設定完了しました。\n");
 }

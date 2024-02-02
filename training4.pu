@@ -124,7 +124,7 @@ activate app
                                     end
                                 else else
                                     note over camerasetting
-                                        do noting
+                                        do nothing
                                     end note
                                 end
                             else else
