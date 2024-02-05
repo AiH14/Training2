@@ -6,11 +6,11 @@
 #include "app.h"
 #include "camerasetting.h"
 
-static _Bool is_initialized = false;
-static _Bool chenge_end = false;
-static _Bool end_judge = false;
+static bool is_initialized = false;
+static bool chenge_end = false;
+static bool end_judge = false;
 
-void app_setcolor(colorvalue)
+void app_setcolor(int colorvalue)
 {
     CHANGE_COLOR color = {0};
 
@@ -27,7 +27,7 @@ void app_setcolor(colorvalue)
     camera_set_color(color);
 }
 
-void app_setsize(sizevalue)
+void app_setsize(int sizevalue)
 {
     CHANGE_SIZE size = {0};
 
@@ -44,7 +44,7 @@ void app_setsize(sizevalue)
     camera_set_size(size);
 }
 
-void app_setf(fvalue)
+void app_setf(int fvalue)
 {
     CHANGE_F f = {0};
 
@@ -59,7 +59,7 @@ void app_setf(fvalue)
     camera_set_f(f);
 }
 
-void app_setsspeed(ssvalue)
+void app_setsspeed(int ssvalue)
 {
     CHANGE_SS sspeed = {0};
 
@@ -87,6 +87,7 @@ void app_setsspeed(ssvalue)
                         break;
                     default:
                         printf("入力された値は対応していません");
+                        break;
                 }
 
         }
@@ -114,6 +115,7 @@ void app_setcolor_question()
                     break;
                 default:
                     printf("入力された値は対応していません");
+                    break;
             }
         if(colorvalue == 0 || colorvalue == 1)
         {
@@ -143,6 +145,7 @@ void app_setsize_question()
                     break;
                 default:
                     printf("入力された値は対応していません");
+                    break;
             }
         if(sizevalue == 0 || sizevalue == 1)
         {
@@ -172,6 +175,7 @@ void app_setf_question()
                     break;
                 default:
                     printf("入力された値は対応していません");
+                    break;
             }
         if(fvalue == 0 || fvalue == 1)
         {
@@ -200,6 +204,7 @@ void app_setsspeed_question()
                     break;
                 default:
                     printf("入力された値は対応していません");
+                    break;
             }
         if(ssvalue == 0 || ssvalue == 1)
         {
@@ -216,7 +221,7 @@ void app_chenge_question()
 {
     int chengevalue = 0;
     
-    while(false == chenge_end)
+    while(1)
     {
         printf("設定を実行しますか？ 0.はい 1.いいえ");
         scanf("%d", &chengevalue);
@@ -230,8 +235,9 @@ void app_chenge_question()
                     break;
                 default:
                     printf("入力された値は対応していません");
+                    break;
             }
-        if(chengevalue == 0 || chengevalue == 1)
+        if(false == chenge_end)
         {
             break;
         }
@@ -262,6 +268,7 @@ void app_end_question()
                 break;
             default:
                 printf("入力された値は対応していません");
+                break;
         }
         if(endvalue == 0 || endvalue == 1)
         {
@@ -288,10 +295,10 @@ void main()
 {
     int setting = 0;
     int ret = 0;
-    _Bool end_judge = false;
+    bool end_judge = false;
     
     camera_initialize();
-    while(false == end_judge)
+    while(1)
     {
         printf("メニューを選択してください。1.色彩設定 2.サイズ設定 3.F値設定 4.シャッタースピード設定 5.設定確定 6.設定終了");
         scanf("%d", &setting);
@@ -300,26 +307,35 @@ void main()
             /*色彩設定*/
             case 1:
                 app_setcolor_question();
-                continue;
+                break;
             /*サイズ設定*/
             case 2:
                 app_setsize_question();
-                continue;
+                break;
             /*F値設定*/
             case 3:
                 app_setf_question();
-                continue;
+                break;
             /*シャッタースピード設定*/
             case 4:
                 app_setsspeed_question();
-                continue;
+                break;
             /*設定実行*/
             case 5:
                 app_chenge_question();
-                continue;
+                break;
             /*設定終了*/
             case 6:
                 app_end_question();
+                break;
+        }
+        if(false == end_judge)
+        {
+            break;
+        }
+        else
+        {
+            continue;
         }
     }
 }

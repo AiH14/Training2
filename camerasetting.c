@@ -15,30 +15,30 @@ void camera_initialize()
     memset(&g_CmrCtrl.f, 0, sizeof(g_CmrCtrl.f));
 }
 
-void camera_set_color(CHANGE_COLOR color,CHANGE_REQ req,_Bool onoff)
+void camera_set_color(CHANGE_COLOR color)
 {
     g_CmrCtrl.color.type = color.type;
     g_CmrCtrl.color.status = color.status;
-    g_CmrCtrl.is_onoff[req] = onoff;
+    g_CmrCtrl.is_onoff[0] = 1;
 }
 
-void camera_set_size(CHANGE_SIZE size,CHANGE_REQ req,_Bool onoff)
+void camera_set_size(CHANGE_SIZE size)
 {
     g_CmrCtrl.size.width = size.width;
     g_CmrCtrl.size.length = size.length;
-    g_CmrCtrl.is_onoff[req] = onoff;
+    g_CmrCtrl.is_onoff[1] = 1;
 }
 
-void camera_set_f(CHANGE_F f,CHANGE_REQ req,_Bool onoff)
+void camera_set_f(CHANGE_F f)
 {
     g_CmrCtrl.f.f = f.f;
-    g_CmrCtrl.is_onoff[req] = onoff;
+    g_CmrCtrl.is_onoff[2] = 1;
 }
 
-void camera_set_sspeed(CHANGE_SS sspeed,CHANGE_REQ req,_Bool onoff)
+void camera_set_sspeed(CHANGE_SS sspeed)
 {
     g_CmrCtrl.ss.sspeed = sspeed.ss;
-    g_CmrCtrl.is_onoff[req] = onoff;
+    g_CmrCtrl.is_onoff[3] = 1;
 }
 
 void camera_change_settings()
