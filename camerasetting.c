@@ -19,26 +19,26 @@ void camera_set_color(CHANGE_COLOR color)
 {
     g_CmrCtrl.color.type = color.type;
     g_CmrCtrl.color.status = color.status;
-    g_CmrCtrl.is_onoff[0] = 1;
+    g_CmrCtrl.is_onoff[COLER] = 1;
 }
 
 void camera_set_size(CHANGE_SIZE size)
 {
     g_CmrCtrl.size.width = size.width;
     g_CmrCtrl.size.length = size.length;
-    g_CmrCtrl.is_onoff[1] = 1;
+    g_CmrCtrl.is_onoff[SIZE] = 1;
 }
 
 void camera_set_f(CHANGE_F f)
 {
     g_CmrCtrl.f.f = f.f;
-    g_CmrCtrl.is_onoff[2] = 1;
+    g_CmrCtrl.is_onoff[F] = 1;
 }
 
 void camera_set_sspeed(CHANGE_SS sspeed)
 {
     g_CmrCtrl.ss.sspeed = sspeed.ss;
-    g_CmrCtrl.is_onoff[3] = 1;
+    g_CmrCtrl.is_onoff[SS] = 1;
 }
 
 void camera_change_settings()

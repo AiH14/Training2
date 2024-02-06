@@ -74,16 +74,16 @@ void app_setsspeed(int ssvalue)
                 switch(sselect)
                 {
                     case 1:
-                        sspeed.ss = 0x00;   /*1/1秒*/
+                        sspeed.ss = SET1;   /*1/1秒*/
                         break;
                     case 2:
-                        sspeed.ss = 0x01;   /*1/2秒*/
+                        sspeed.ss = SET2;   /*1/2秒*/
                         break;
                     case 3:
-                        sspeed.ss = 0x02;   /*1/5秒*/
+                        sspeed.ss = SET3;   /*1/5秒*/
                         break;
                     case 4:
-                        sspeed.ss = 0x03;   /*1/10秒*/
+                        sspeed.ss = SET4;   /*1/10秒*/
                         break;
                     default:
                         printf("入力された値は対応していません");
@@ -231,13 +231,14 @@ void app_chenge_question()
                     app_change_settings();
                     break;
                 case 1:
-                    /* このwhile文から抜ける*/
+                    /* このwhile文から抜ける*//*settingの入力に戻る*/
+                    chenge_end =true;
                     break;
                 default:
                     printf("入力された値は対応していません");
-                    break;
+                    break; /*はい/いいえの入力に戻る*/
             }
-        if(false == chenge_end)
+        if(false != chenge_end)
         {
             break;
         }
@@ -264,13 +265,13 @@ void app_end_question()
                 chenge_end = true;
                 break;
             case 1:
-                chenge_end = true;
+                chenge_end = true; /*settingの入力に戻る*/
                 break;
             default:
                 printf("入力された値は対応していません");
                 break;
         }
-        if(endvalue == 0 || endvalue == 1)
+        if(false != chenge_end)
         {
             break;
         }
@@ -285,10 +286,11 @@ void app_end_question()
 void app_change_settings()
 {
     camera_change_settings();
-    /*フラグ初期化用関数呼び出し*/
+    /*設定変更用関数呼び出し*/
     camera_initialize();
-    /*終了判断用関数呼び出し*/
+    /*初期化用関数呼び出し*/
     app_end_question();
+    /*設定終了用関数呼び出し*/
 }
 
 void main()
@@ -328,8 +330,11 @@ void main()
             case 6:
                 app_end_question();
                 break;
+            default:
+                printf("入力された値は対応していません");
+                break;
         }
-        if(false == end_judge)
+        if(false != end_judge)
         {
             break;
         }

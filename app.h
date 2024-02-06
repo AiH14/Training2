@@ -9,10 +9,10 @@ typedef enum{
 }CHANGE_REQ;
 
 typedef enum{
-    SET1 = 1, /*0x00*/
-    SET2, /*0x01*/
-    SET3,/*0x02*/
-    SET4,/*0x03*/
+    SET1 = 0x00, 
+    SET2, 
+    SET3,
+    SET4,
 }SET_SSPEED;
 
 /* 色彩設定用構造体 */
@@ -38,10 +38,11 @@ typedef struct{
 }CHANGE_SS;
 
 /*関数宣言*/
+void app_setcolor(int colorvalue);
 void app_setsize(int sizevalue);
 void app_setf(int fvalue);
 void app_setsspeed(int ssvalue);
-void app_set_setcolor_question();
+void app_setcolor_question();
 void app_setsize_question();
 void app_setf_question();
 void app_setsspeed_question();

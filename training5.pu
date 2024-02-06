@@ -2,7 +2,7 @@
 participant user
 participant app
 participant camerasetting
-user -> app:int()
+user -> app:main()
 activate app
     app -> camerasetting:camera_initialize()
     activate camerasetting
@@ -10,7 +10,7 @@ activate app
             グローバル変数の初期化
         end note
     return
-    loop false == end_judge
+    loop 
         note over app
             ユーザーにscanfでsettingの値の入力を求める表示
         end note
@@ -241,7 +241,7 @@ activate app
                         実行するかどうかの表示
                         scanfでユーザーに値の入力を求める表示
                     end note
-                        loop False == change_end
+                        loop 
                             alt 0:はい
                                 app -> app:app_change_setting();
                                 activate app
@@ -373,6 +373,10 @@ activate app
                             end
                     end
                 return
+            else else
+                note over app
+                    settingの入力に戻る
+                end note
             end
                 note over app
                     end_judgeがオンの場合ループから抜ける
