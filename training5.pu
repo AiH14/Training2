@@ -25,14 +25,14 @@ activate app
                         scanfでユーザーに値の入力を求める表示
                     end note
                         loop 
-                            alt 0:設定 1:初期化
+                            alt 1:設定 2:初期化
                                 app -> app:app_setcolor(colorvalue)
                                 activate app
-                                    alt colorvalue == 0
+                                    alt colorvalue == 1
                                         note over app
                                             固定値を設定
                                         end note
-                                    else colorvalue == 1
+                                    else colorvalue == 2
                                         note over app
                                             初期値を設定
                                         end note
@@ -53,11 +53,11 @@ activate app
                                     入力が対応していない旨の表示
                                 end note
                             end
-                                alt 入力が0または1
+                                alt 入力が1または2
                                     note over app
                                         loopを抜ける
                                     end note
-                                else 入力が0または1でない
+                                else 入力が1または2でない
                                     note over app
                                         設定/初期化の入力に戻る
                                     end note
@@ -72,14 +72,14 @@ activate app
                         scanfでユーザーに値の入力を求める表示
                     end note
                         loop 
-                            alt 0:設定 1:初期化
+                            alt 1:設定 2:初期化
                                 app -> app:app_setsize(sizevalue)
                                 activate app
-                                     alt sizevalue == 0
+                                     alt sizevalue == 1
                                         note over app
                                             固定値を設定
                                         end note
-                                    else sizevalue == 1
+                                    else sizevalue == 2
                                         note over app
                                             初期値を設定
                                         end note
@@ -100,11 +100,11 @@ activate app
                                     入力が対応していない旨の表示
                                 end note
                             end
-                            alt 入力が0または1
+                            alt 入力が1または2
                                     note over app
                                         loopを抜ける
                                     end note
-                                else 入力が0または1でない
+                                else 入力が1または2でない
                                     note over app
                                         設定/初期化の入力に戻る
                                     end note
@@ -119,14 +119,14 @@ activate app
                         scanfでユーザーに値の入力を求める表示
                     end note
                         loop 
-                            alt 0:設定 1:初期化
+                            alt 1:設定 2:初期化
                                 app -> app:app_setf(fvalue)
                                 activate app
-                                    alt sizevalue == 0
+                                    alt sizevalue == 1
                                         note over app
                                             固定値を設定
                                         end note
-                                    else sizevalue == 1
+                                    else sizevalue == 2
                                         note over app
                                             初期値を設定
                                         end note
@@ -147,11 +147,11 @@ activate app
                                     入力が対応していない旨の表示
                                 end note
                             end
-                                alt 入力が0または1
+                                alt 入力が1または2
                                     note over app
                                         loopを抜ける
                                     end note
-                                else 入力が0または1でない
+                                else 入力が1または2でない
                                     note over app
                                         設定/初期化の入力に戻る
                                     end note
@@ -166,10 +166,10 @@ activate app
                         scanfでユーザーに値の入力を求める表示
                     end note
                         loop 
-                            alt 0:設定 1:初期化
+                            alt 1:設定 2:初期化
                                 app -> app:app_setsspeed(ssvalue);
                                 activate app
-                                    alt ssvalue == 0
+                                    alt ssvalue == 1
                                         note over app
                                         ユーザーにscanfで値の入力を求める表示
                                         end note
@@ -201,7 +201,7 @@ activate app
                                                     end note
                                                 end
                                             end
-                                    else ssvalue == 1
+                                    else ssvalue == 2
                                         note over app
                                             初期値を設定
                                         end note
@@ -223,11 +223,11 @@ activate app
                                     入力が対応していない旨の表示
                                 end note
                             end
-                                alt 入力が0または1
+                                alt 入力が1または2
                                     note over app
                                         loopを抜ける
                                     end note
-                                else 入力が0または1でない
+                                else 入力が1または2でない
                                     note over app
                                         設定/初期化の入力に戻る
                                     end note
@@ -242,7 +242,7 @@ activate app
                         scanfでユーザーに値の入力を求める表示
                     end note
                         loop 
-                            alt 0:はい
+                            alt 1:はい
                                 app -> app:app_change_setting();
                                 activate app
                                     app -> camerasetting:camera_change_settings()
@@ -297,15 +297,13 @@ activate app
                                             note over app
                                                 設定を終了するか否かscanfでユーザーに入力を求める表示
                                             end note
-                                                alt 0:はい
+                                                alt 1:はい
                                                     note over app
-                                                        end_judgeをオンにする
-                                                        chenge_endをオンにする
+                                                        g_end_judgeをオンにする
                                                         loopから抜ける
                                                     end note
-                                                else 1:いいえ
+                                                else 2:いいえ
                                                     note over app
-                                                        chenge_endをオンにする
                                                         settingの入力に戻る
                                                     end note
                                                 else その他の入力
@@ -314,11 +312,11 @@ activate app
                                                         はい/いいえの入力に戻る
                                                     end note
                                                 end
-                                                    alt 入力が0または1
+                                                    alt false != chenge_end
                                                         note over app
                                                             loopを抜ける
                                                         end note
-                                                    else 入力が0または1でない
+                                                    else else
                                                         note over app
                                                             設定/初期化の入力に戻る
                                                         end note
@@ -326,7 +324,7 @@ activate app
                                             end
                                         return
                                 return
-                            else 1:いいえ
+                            else 2:いいえ
                                 note over app
                                     settingの入力に戻る
                                 end note
@@ -348,12 +346,11 @@ activate app
                     設定を終了するか否かscanfでユーザーに入力を求める表示
                 end note
                     loop 
-                        alt 0:はい
+                        alt 1:はい
                             note over app
-                                end_judgeをオンにする
-                                chenge_endをオンにする※判定なし
+                                g_end_judgeをオンにする
                             end note
-                        else 1:いいえ
+                        else 2:いいえ
                             note over app
                                 settingの入力に戻る
                             end note
@@ -362,11 +359,11 @@ activate app
                                 入力が対応していない旨の表示
                             end note
                         end
-                            alt 入力が0または1
+                            alt false != chenge_end
                                 note over app
                                     loopを抜ける
                                 end note
-                            else 入力が0または1でない
+                            else else
                                 note over app
                                     はい/いいえの入力に戻る
                                 end note
@@ -379,7 +376,7 @@ activate app
                 end note
             end
                 note over app
-                    end_judgeがオンの場合ループから抜ける
+                    g_end_judgeがオンの場合ループから抜ける
                 end note
     end
 return

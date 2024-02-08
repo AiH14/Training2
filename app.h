@@ -8,12 +8,44 @@ typedef enum{
     CHANGE_MAX   /* 変更可能機能最大数 */
 }CHANGE_REQ;
 
+/*シャッタースピード用*/
 typedef enum{
-    SET1 = 0x00, 
-    SET2, 
-    SET3,
-    SET4,
+    ONE = 0x00, 
+    HARF,
+    FIFTH,
+    TENTH,
 }SET_SSPEED;
+
+/*シャッタースピードCase文用*/
+typedef enum{
+    INP_ONE = 1,
+    INP_HARF,
+    INP_FIFTH,
+    INP_TENTH,
+}CASE;
+
+/*設定初期化用*/
+typedef enum{
+    SET = 1,
+    INIT,
+}SET_Q;
+
+/*はい/いいえ用*/
+typedef enum{
+    YES = 1,
+    NO,
+}YN_Q;
+
+/*設定選択用*/
+typedef enum{
+    INP_COLOR = 1,
+    INP_SIZE,
+    INP_F,
+    INP_SS,
+    INP_SET,
+    INP_END,
+}SET_SELECT;
+
 
 /* 色彩設定用構造体 */
 typedef struct{
